@@ -196,7 +196,3 @@ fun decimalDiagitValue(c: Char): Int {
         throw IllegalArgumentException("Out of range")
     return c.toInt() - '0'.toInt()
 }
-
-
-
-
