@@ -67,7 +67,7 @@ fun main(args: Array<String>) {
     println(age)
 
     //返回值为null
-//    returnNull()
+    //returnNull()
 
     //类型监测及自动监测
     println(getStringLength("1"))
@@ -202,7 +202,7 @@ fun section() {
 
     var i: Int = 9
     if (i in 1..10) { // 等同于 1 <= i && i <= 10
-        println(i)
+        println("--"+i)
     }
 
     //使用step指定步长
@@ -218,7 +218,7 @@ fun section() {
     for (i in 1 until 10) {
         print(i)
     }
-    
+
 }
 
 

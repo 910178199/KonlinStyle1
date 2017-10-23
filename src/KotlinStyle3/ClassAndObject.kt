@@ -32,6 +32,28 @@ fun main(args: Array<String>) {
     println("lazy is ${lazy.lazy}")
 
 
+    val person = Person("sss", 100)
+
+    //调用嵌套类
+    val foo = Outer.Nested().foo()
+    println(foo)
+
+    //内部类
+    val foo1 = Outers().Inner().foo()
+    println(foo1)
+
+    val foo2 = Outers().Inner().innerTest()
+    println(foo2)
+
+    //匿名内部类
+    val test = Test()
+    test.setInterFace(object : TestInterface {
+        override fun test() {
+            println("对象表达式创建匿名内部类的实例")
+        }
+    })
+
+
 }
 
 /**
@@ -74,8 +96,11 @@ class Person(str: String) {
         }
     }
 
+    /**
+     * 次构造函数
+     */
     constructor(str: String, age: Int) : this(str) {
-
+        println("constructor string $str age is $age")
     }
 
     /**
@@ -153,7 +178,110 @@ class LazyProperty(val initializer: () -> Int) {
             if (value == null) {
                 value = initializer()
             }
-            return value!!
+            return value!! //如果为空就报空指针
         }
 }
 
+/**
+ * 注意：在 JVM 虚拟机中，如果主构造函数的所有参数都有默认值，编译器会生成一个附加的无参的构造函数，
+ * 这个构造函数会直接使用默认值。这使得 Kotlin 可以更简单的使用像 Jackson 或者 JPA
+ * 这样使用无参构造函数来创建类实例的库。
+ */
+
+class Customer(val customer: String = "") {
+
+}
+
+/**
+ * 抽象类
+ * 注意：无需对抽象类或抽象成员标注open注解。
+ *
+ * 对于可以重写的函数，都需要显示的指明，使用的是open关键字。
+ * 如果没有，在子类中声明跟父类相同的方法是非法的。
+ *
+ * 抽象是面向对象编程的特征之一，类本身，或类中的部分成员，
+ * 都可以声明为abstract的。抽象成员在类中不存在具体的实现
+ */
+open class Base {
+    open fun f() {}
+}
+
+abstract class Derived : Base() {
+    override abstract fun f()
+}
+
+
+/**
+ * 嵌套类
+ *
+ */
+class Outer {
+    //外部类
+    private val bar: Int = 1
+
+    class Nested {
+        //嵌套类
+        fun foo() = 2
+    }
+}
+
+/**
+ * 内部类
+ *  内部类使用 inner 关键字来表示。
+ *  内部类会带有一个对外部类的对象的引用，所以内部类可以访问外部类成员属性和成员函数。
+ *
+ *  为了消除歧义，要访问来自外部作用域的 this，我们使用this@label，
+ *  其中 @label 是一个 代指 this 来源的标签。
+ */
+class Outers {
+    private val bar: Int = 1
+    var v = "成员属性"
+
+    /**
+     * 嵌套内部类
+     */
+    inner class Inner {
+        fun foo() = bar //访问外部类成员
+        fun innerTest() {
+            var o = this@Outers//获取外部类的成员变量
+            println(o.v)
+        }
+    }
+}
+
+
+/**
+ * 定义接口
+ */
+interface TestInterface {
+    fun test()
+}
+
+/**
+ * 匿名内部类
+ */
+
+class Test {
+    var v = "成员变量"
+    fun setInterFace(test: TestInterface) {
+        test.test()
+    }
+}
+
+/**
+ * 类修饰符
+ *
+ * 类的修饰符包括 classModifier 和_accessModifier_:
+ *classModifier: 类属性修饰符，标示类本身特性。
+ *abstract    // 抽象类
+ *final       // 类不可继承，默认属性
+ *enum        // 枚举类
+ *open        // 类可继承，类默认是final的
+ *annotation  // 注解类
+
+ *accessModifier: 访问权限修饰符
+ *private    // 仅在同一个文件中可见
+ *protected  // 同一个文件中或子类可见
+ *public     // 所有调用的地方都可见
+ *internal   // 同一个模块中可见
+ */

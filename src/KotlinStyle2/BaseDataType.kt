@@ -4,14 +4,9 @@ package KotlinStyle2
  * Kotlin基本数据类型
  *  Kotlin 的基本数值类型包括 Byte、Short、Int、Long、Float、Double 等。
  *  不同于Java的是，字符不属于数值类型，是一个独立的数据类型。
- *
- *
- *
  */
 
 fun main(args: Array<String>) {
-
-
     //比较两个数字
     compareValue()
 
@@ -54,9 +49,9 @@ fun compareValue() {
 
     /**
      * 逻辑运算符
-     * || – 短路逻辑或
-     *  && – 短路逻辑与
-     *  ! - 逻辑非
+     * || –  短路逻辑或
+     * && – 短路逻辑与
+     * ! -  逻辑非
      */
 
     /**
